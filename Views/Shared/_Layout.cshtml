@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ecommerce</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#4f46e5',secondary:'#f97316'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+}
+.custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+.custom-checkbox:checked {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+}
+.custom-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e7eb;
+    transition: .4s;
+    border-radius: 20px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #4f46e5;
+}
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+.color-option {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+.color-option.selected::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid #4f46e5;
+    border-radius: 50%;
+}
+.size-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 0 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.size-option.selected {
+    border-color: #4f46e5;
+    background-color: #eff6ff;
+    color: #4f46e5;
+}
+.image-preview {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f3f4f6;
+}
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.image-preview .remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    color: #ef4444;
+}
+.drag-area {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.drag-area:hover {
+    background-color: #f3f4f6;
+}
+.drag-area.active {
+    border-color: #4f46e5;
+    background-color: #eff6ff;
+}
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+.variant-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 120px 100px 40px;
+    gap: 12px;
+    align-items: center;
+}
+</style>
+</head>
+<body>
+
+<nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+
+                <div class="hidden md:ml-10 md:flex md:space-x-8">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-area="" asp-controller="Produit" asp-action="Index" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Produits</a>
+                        <a asp-area="" asp-controller="Panier" asp-action="GetListPanier" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Panier</a>
+
+                        <a asp-area="" asp-controller="Commande" asp-action="Confirmation" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">
+                            <i class="ri-shopping-cart-line"></i> Mes commandes
+                        </a>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-area="" asp-controller="Commande" asp-action="ToutesLesCommandes" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">
+                                <i class="ri-file-list-line"></i> Toutes les commandes
+                            </a>
+                            <a href="#" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Dashboard</a>
+                            <a asp-area="" asp-controller="Categorie" asp-action="Create" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Categorie</a>
+                            <a asp-area="" asp-controller="Produit" asp-action="Create" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">Ajouter un Produit</a>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="flex items-center">
+                <div class="relative">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post">
+                            <button type="submit" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">
+                                <i class="ri-logout-box-line"></i> Déconnexion
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Auth" asp-action="Login" class="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">
+                            <i class="ri-login-box-line"></i> Se connecter
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+    <div class="">
+        <main role="main" class="">
+            @RenderBody()
+        </main>
+    </div>
+
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex justify-between items-center">
+    <a href="https://readdy.ai/home/d04ad1c3-d125-4422-8fbd-b78cc060a9b4/e3d74ccf-03aa-46f8-b722-af272c489906" data-readdy="true" class="text-gray-700">
+        Annuler
+    </a>
+    <button class="bg-primary text-white px-6 py-2 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">
+        Enregistrer
+    </button>
+</div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    // File Upload Functionality
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file-input');
+    
+    dropArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('active');
+    });
+    
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('active');
+    });
+    
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('active');
+        
+        // Handle file upload logic here
+        // const files = e.dataTransfer.files;
+        // handleFiles(files);
+    });
+    
+    fileInput.addEventListener('change', () => {
+        // Handle file upload logic here
+        // const files = fileInput.files;
+        // handleFiles(files);
+    });
+    
+    // Remove image preview
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.closest('.image-preview').remove();
+        });
+    });
+    
+    // Color options selection
+    const colorOptions = document.querySelectorAll('.color-option');
+    colorOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            this.classList.toggle('selected');
+        });
+    });
+    
+    // Size options selection
+    const sizeOptions = document.querySelectorAll('.size-option');
+    sizeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            this.classList.toggle('selected');
+        });
+    });
+    
+    // Variants toggle
+    const variantsToggle = document.getElementById('variants-toggle');
+    const variantsContainer = document.getElementById('variants-container');
+    
+    variantsToggle.addEventListener('change', function() {
+        if (this.checked) {
+            variantsContainer.style.display = 'block';
+        } else {
+            variantsContainer.style.display = 'none';
+        }
+    });
+    
+    // Navigation back to products page
+    const cancelBtn = document.getElementById('cancel-btn');
+    cancelBtn.addEventListener('click', function() {
+        window.location.href = 'https://readdy.ai/home/d04ad1c3-d125-4422-8fbd-b78cc060a9b4/e3d74ccf-03aa-46f8-b722-af272c489906';
+    });
+    
+    // Save button action
+    const saveBtn = document.getElementById('save-btn');
+    saveBtn.addEventListener('click', function() {
+        // Validation logic would go here
+        alert('Produit enregistré avec succès !');
+        window.location.href = 'https://readdy.ai/home/d04ad1c3-d125-4422-8fbd-b78cc060a9b4/e3d74ccf-03aa-46f8-b722-af272c489906';
+    });
+});
+</script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,186 @@
+@model ecommerce.Models.ViewModels.AddProduitViewModel
+
+
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center">
+            <a href="https://readdy.ai/home/d04ad1c3-d125-4422-8fbd-b78cc060a9b4/e3d74ccf-03aa-46f8-b722-af272c489906"
+                data-readdy="true" class="flex items-center text-gray-500 hover:text-primary mr-4">
+                <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-arrow-left-line"></i>
+                </div>
+                <span class="ml-1 text-sm">Retour</span>
+            </a>
+            <h1 class="text-2xl font-bold text-gray-900">Nouveau Produit</h1>
+        </div>
+        <div class="flex space-x-3">
+            <button id="cancel-btn"
+                class="px-4 py-2 border border-gray-300 rounded-button text-gray-700 font-medium hover:bg-gray-50 transition whitespace-nowrap">
+                Annuler
+            </button>
+            <button id="save-btn"
+                class="bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap flex items-center">
+                <div class="w-4 h-4 flex items-center justify-center mr-2">
+                    <i class="ri-save-line"></i>
+                </div>
+                Enregistrer
+            </button>
+        </div>
+    </div>
+
+
+
+    <form asp-action="Create" method="post">
+
+        <!-- Form Container -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - Main Info -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Basic Information -->
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Informations de base</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="product-name" class="block text-sm font-medium text-gray-700 mb-1">Nom du
+                                    produit <span class="text-red-500">*</span></label>
+                                <input type="text" asp-for="Nom" id="product-name"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded form-input"
+                                    placeholder="Saisissez le nom du produit">
+                            </div>
+                            <div>
+                                <label for="product-description"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Description <span
+                                        class="text-red-500">*</span></label>
+                                <textarea id="product-description" asp-for="Description" rows="6"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded form-textarea"
+                                    placeholder="Décrivez votre produit en détail..."></textarea>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="product-price" class="block text-sm font-medium text-gray-700 mb-1">Prix
+                                        (€) <span class="text-red-500">*</span></label>
+                                    <div class="relative">
+                                        <input type="number" asp-for="Prix" id="product-price"
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded form-input"
+                                            placeholder="0.00">
+                                        <div
+                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500">€</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="product-compare-price"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Prix comparé (€)</label>
+                                    <div class="relative">
+                                        <input type="text" id="product-compare-price"
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded form-input"
+                                            placeholder="0.00">
+                                        <div
+                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500">€</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Images -->
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Images du produit</h2>
+                        <div class="drag-area mb-4" id="drop-area">
+                            <div class="w-12 h-12 flex items-center justify-center mx-auto mb-3 text-gray-400">
+                                <i class="ri-upload-cloud-line ri-2x"></i>
+                            </div>
+                            <p class="text-gray-700 mb-1">Glissez et déposez des images ici</p>
+                            <p class="text-gray-500 text-sm mb-3">ou</p>
+                            <button
+                                class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-button text-sm hover:bg-gray-50 transition whitespace-nowrap">
+                                Parcourir les fichiers
+                            </button>
+                            <input type="file" id="file-input" multiple accept="image/*" class="hidden">
+                        </div>
+
+                    </div>
+
+
+                    <!-- SEO -->
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Référencement (SEO)</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="product-meta-title"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Titre de la page</label>
+                                <input type="text" id="product-meta-title"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded form-input"
+                                    placeholder="Titre pour les moteurs de recherche">
+                            </div>
+                            <div>
+                                <label for="product-meta-description"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Description de la page</label>
+                                <textarea id="product-meta-description" rows="3"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded form-textarea"
+                                    placeholder="Description pour les moteurs de recherche"></textarea>
+                            </div>
+                            <div>
+                                <label for="product-url-handle" class="block text-sm font-medium text-gray-700 mb-1">URL
+                                    du produit</label>
+                                <div class="flex">
+                                    <span
+                                        class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l text-sm">
+                                        monsite.fr/produits/
+                                    </span>
+                                    <input type="text" id="product-url-handle"
+                                        class="flex-1 px-4 py-2 border border-gray-300 rounded-r form-input"
+                                        placeholder="nom-du-produit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column - Organization & Visibility -->
+                <div class="space-y-6">
+               
+
+                    <!-- Organization -->
+                    <div class="bg-gray-50 rounded-lg p-5">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Organisation</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="product-category"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Catégorie principale <span
+                                        class="text-red-500">*</span></label>
+                                <select asp-for="CategorieId"
+                                    asp-items="@(new SelectList(ViewBag.Categories, "Id", "Nom"))"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded bg-white"></select>
+
+                            </div>
+                            <div>
+                                <label for="product-tags"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+                                <input type="text" id="product-tags"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded form-input"
+                                    placeholder="été, tendance, soldes...">
+                                <p class="text-xs text-gray-500 mt-1">Séparez les tags par des virgules</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <button id="save-btn"
+            type="submit"
+                class="bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap flex items-center">
+                <div class="w-4 h-4 flex items-center justify-center mr-2">
+                    <i class="ri-save-line"></i>
+                </div>
+                Enregistrer
+            </button>
+        </div>
+
+    </form>
+</div>

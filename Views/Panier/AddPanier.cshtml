@@ -1,0 +1,39 @@
+@model ecommerce.Models.ViewModels.AddPanier
+
+@{
+    ViewData["Title"] = "Ajout au panier";
+    var produit = ViewBag.ProduitId as ecommerce.Models.Domain.Produit;
+}
+
+<div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-semibold mb-6 text-primary font-['Pacifico']">Ajouter au panier</h1>
+
+    @if (produit != null)
+    {
+        <section class="mb-6">
+            <h3 class="text-xl font-semibold mb-2">Produit sélectionné</h3>
+            <p><span class="font-semibold">Nom :</span> <span class="text-gray-800">@produit.Nom</span></p>
+            <p><span class="font-semibold">Description :</span> <span class="text-gray-700">@produit.Description</span></p>
+            <p><span class="font-semibold">Prix :</span> <span class="text-primary font-bold">@produit.Prix €</span></p>
+        </section>
+    }
+
+    <form asp-action="AddPanier" method="post" class="space-y-4">
+        <input type="hidden" asp-for="UtilisateurId" />
+        <input type="hidden" asp-for="ProduitId" />
+
+        <div>
+            <label for="Quantite" class="block text-sm font-medium text-gray-700">Quantité</label>
+            <input 
+                type="number" 
+                name="Quantite" 
+                id="Quantite"
+                class="mt-1 block w-full rounded-button border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" 
+                value="1" min="1" />
+        </div>
+
+        <button type="submit" class="w-full bg-primary hover:bg-secondary text-white font-semibold py-3 rounded-button transition-colors duration-300">
+            Ajouter au panier
+        </button>
+    </form>
+</div>

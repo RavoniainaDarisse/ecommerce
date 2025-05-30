@@ -1,0 +1,19 @@
+@model ecommerce.Models.Domain.Categorie
+
+@{
+    ViewData["Title"] = "Supprimer une catégorie";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Êtes-vous sûr de vouloir supprimer cette catégorie ?</h4>
+
+<div>
+    <strong>Nom :</strong> @Model.Nom
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger mt-3">Confirmer la suppression</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Annuler</a>
+</form>

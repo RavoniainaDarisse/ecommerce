@@ -1,0 +1,218 @@
+@model ecommerce.Models.Domain.User
+
+@{
+    ViewData["Title"] = "Inscription";
+}
+
+
+ <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h1 class="text-center font-['Pacifico'] text-primary text-3xl mb-2">
+          logo
+        </h1>
+        <h2 class="mt-4 text-center text-2xl font-bold text-gray-900">
+          Créez votre compte
+        </h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Rejoignez notre communauté et profitez de nos offres exclusives
+        </p>
+      </div>
+
+      <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div
+          class="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border border-gray-100"
+        >
+          <form
+            asp-action="Register"
+            asp-controller="Auth"
+            method="post"
+            class="space-y-6"
+          >
+            <div>
+              <label for="Nom" class="block text-sm font-medium text-gray-700"
+                >Nom</label
+              >
+              <div class="mt-1 relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 w-10 h-10 flex items-center justify-center"
+                >
+                  <i class="ri-user-line text-gray-400"></i>
+                </div>
+                <input
+                  asp-for="Nom"
+                  id="Nom"
+                  required
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary/20"
+                  placeholder="Votre nom complet"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="Email" class="block text-sm font-medium text-gray-700"
+                >Email</label
+              >
+              <div class="mt-1 relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 w-10 h-10 flex items-center justify-center"
+                >
+                  <i class="ri-mail-line text-gray-400"></i>
+                </div>
+                <input
+                  asp-for="Email"
+                  id="Email"
+                  type="email"
+                  required
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary/20"
+                  placeholder="votre.email@exemple.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="MotDePasse"
+                class="block text-sm font-medium text-gray-700"
+                >Mot de passe</label
+              >
+              <div class="mt-1 relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 w-10 h-10 flex items-center justify-center"
+                >
+                  <i class="ri-lock-line text-gray-400"></i>
+                </div>
+                <input
+                  asp-for="MotDePasse"
+                  id="MotDePasse"
+                  type="password"
+                  required
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary/20"
+                  placeholder="8 caractères minimum"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="Adresse"
+                class="block text-sm font-medium text-gray-700"
+                >Adresse</label
+              >
+              <div class="mt-1 relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 w-10 h-10 flex items-center justify-center"
+                >
+                  <i class="ri-map-pin-line text-gray-400"></i>
+                </div>
+                <input
+                  asp-for="Adresse"
+                  id="Adresse"
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary/20"
+                  placeholder="Votre adresse complète"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="Telephone"
+                class="block text-sm font-medium text-gray-700"
+                >Téléphone</label
+              >
+              <div class="mt-1 relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 w-10 h-10 flex items-center justify-center"
+                >
+                  <i class="ri-phone-line text-gray-400"></i>
+                </div>
+                <input
+                  asp-for="Telephone"
+                  id="Telephone"
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary/20"
+                  placeholder="06 12 34 56 78"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="Role" class="block text-sm font-medium text-gray-700"
+                >Rôle</label
+              >
+              <div class="mt-1 relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 w-10 h-10 flex items-center justify-center"
+                >
+                  <i class="ri-user-settings-line text-gray-400"></i>
+                </div>
+                <div class="relative">
+                  <select
+                    asp-for="Role"
+                    id="Role"
+                    class="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded text-gray-900 appearance-none focus:ring-2 focus:ring-primary/20"
+                  >
+                    <option value="Client">Client</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                  <div
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                  >
+                    <i class="ri-arrow-down-s-line text-gray-400"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <button
+                type="submit"
+                class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-button text-white bg-primary hover:bg-primary/90 transition-colors font-semibold text-sm whitespace-nowrap"
+              >
+                S'inscrire
+              </button>
+            </div>
+          </form>
+
+          <div class="mt-6">
+            <div class="relative">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-200"></div>
+              </div>
+              <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">ou</span>
+              </div>
+            </div>
+
+            <div class="mt-6 grid grid-cols-2 gap-3">
+              <a
+                href="#"
+                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-button bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                  <i class="ri-google-fill text-red-500"></i>
+                </div>
+                Google
+              </a>
+              <a
+                href="#"
+                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-button bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                  <i class="ri-facebook-fill text-blue-600"></i>
+                </div>
+                Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-6 text-center text-sm text-gray-600">
+        Vous avez déjà un compte ?
+        <a
+          href="/Auth/Login"
+          class="font-medium text-primary hover:text-primary/80 transition-colors"
+        >
+          Se connecter
+        </a>
+      </p>
+    </div>

@@ -1,0 +1,20 @@
+@model ecommerce.Models.ViewModels.EditCategorieViewModel
+
+@{
+    ViewData["Title"] = "Modifier la catégorie";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Nom" class="control-label"></label>
+        <input asp-for="Nom" class="form-control" />
+        <span asp-validation-for="Nom" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Annuler</a>
+</form>
